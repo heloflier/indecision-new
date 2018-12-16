@@ -1,3 +1,5 @@
+// babel src/playground/es6-arrow-function.js --out-file=public/scripts/app.js --presets=env,react --watch
+
 const fullName = 'Jen Mead';
 let firstName;
 

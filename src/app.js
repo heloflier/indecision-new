@@ -1,3 +1,5 @@
+// babel src/app.js --out-file=public/scripts/app.js --presets=env,react --watch
+
 console.log('app.js is running');
 
 
@@ -24,26 +26,33 @@ const template = (
     </div>
 );
 
-const user = {
-    name: "Fabio Aiello",
-    age: 57,
-    location: "San Diego"
+let count = 0;
+const addOne = () => {
+    count ++;
+    renderCounterApp();
+};
+const subtractOne = () => {
+    count --;
+    renderCounterApp();
+};
+const reset = () => {
+    count = 0;
+    renderCounterApp();
 };
 
-function getLocation (location) {
-    if (location) {
-        return <p>location: {location}</p>;
-    };
-}
+const renderCounterApp = () => {
+    const templateTwo = (
+        <div>
+            <h1>Count: {count}</h1>
+            <button onClick={addOne}>+1</button>
+            <button onClick={subtractOne}>-1</button>
+            <button onClick={reset}>reset</button>
+        </div>
+    );
+    
+    const appRoot = document.getElementById('app');
 
-const templateTwo = (
-    <div>
-        <h1>{ user.name ? user.name : "Anonimous"}</h1>
-        {(user.age && user.age > 18) && <p>Age: {user.age}</p>}
-        {getLocation(user.location)}
-    </div>
-);
+    ReactDOM.render(templateTwo, appRoot);
+};
 
-const appRoot = document.getElementById('app');
-
-ReactDOM.render(template, appRoot);
+renderCounterApp();
