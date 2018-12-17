@@ -1,97 +1,46 @@
-"use strict";
+'use strict';
 
-// babel src/app.js --out-file=public/scripts/app.js --presets=env,react --watch
+// babel src/playground/build-it-visible.js --out-file=public/scripts/app.js --presets=env,react --watch
 
-console.log('app.js is running');
-
-// JSX
+console.log('build it visible is running');
 
 "use strict";
 
-var appObject = {
-    title: "Indecision App",
-    subtitle: "an app for the undecided",
-    options: ['One', 'Two']
+var appRoot = document.getElementById('app');
+
+var visibility = false;
+
+var toggleVisibility = function toggleVisibility() {
+    visibility = !visibility;
+    renderApp();
 };
 
-var template = React.createElement(
-    "div",
-    null,
-    React.createElement(
-        "h1",
-        null,
-        appObject.title
-    ),
-    appObject.subtitle && React.createElement(
-        "p",
-        null,
-        appObject.subtitle
-    ),
-    React.createElement(
-        "p",
-        null,
-        appObject.options && appObject.options.length > 0 ? "Here are your options" : "No Options"
-    ),
-    React.createElement(
-        "ol",
+var renderApp = function renderApp() {
+    var template = React.createElement(
+        'div',
         null,
         React.createElement(
-            "li",
+            'h1',
             null,
-            "Item One"
+            'Visibility Toggle'
         ),
         React.createElement(
-            "li",
+            'button',
+            { onClick: toggleVisibility },
+            visibility ? "Hide Details" : "Show Details"
+        ),
+        visibility && React.createElement(
+            'div',
             null,
-            "Item Two"
-        )
-    )
-);
-
-var count = 0;
-var addOne = function addOne() {
-    count++;
-    renderCounterApp();
-};
-var subtractOne = function subtractOne() {
-    count--;
-    renderCounterApp();
-};
-var reset = function reset() {
-    count = 0;
-    renderCounterApp();
-};
-
-var renderCounterApp = function renderCounterApp() {
-    var templateTwo = React.createElement(
-        "div",
-        null,
-        React.createElement(
-            "h1",
-            null,
-            "Count: ",
-            count
-        ),
-        React.createElement(
-            "button",
-            { onClick: addOne },
-            "+1"
-        ),
-        React.createElement(
-            "button",
-            { onClick: subtractOne },
-            "-1"
-        ),
-        React.createElement(
-            "button",
-            { onClick: reset },
-            "reset"
+            React.createElement(
+                'p',
+                null,
+                'Some Details'
+            )
         )
     );
 
-    var appRoot = document.getElementById('app');
-
-    ReactDOM.render(templateTwo, appRoot);
+    ReactDOM.render(template, appRoot);
 };
 
-renderCounterApp();
+renderApp();

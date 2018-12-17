@@ -2,57 +2,63 @@
 
 console.log('app.js is running');
 
-
-// JSX
-
 "use strict";
 
-const appObject = {
+const app = {
     title: "Indecision App",
-    subtitle: "an app for the undecided",
-    options: ['One', 'Two']
+    subtitle: "Put your life in the hands of a computer",
+    options: []
 };
 
-const template = (
-    <div>
-        <h1>{appObject.title}</h1>
-        {appObject.subtitle && <p>{appObject.subtitle}</p>}
-        <p>{(appObject.options && appObject.options.length > 0) ? "Here are your options" : "No Options"}</p>
+const onFormSubmit = (event) => {
+    event.preventDefault();
 
-        <ol>
-            <li>Item One</li>
-            <li>Item Two</li>
-        </ol>
-    </div>
-);
+    console.log('event object: ', event)
+    const option = event.target.elements.option.value;
 
-let count = 0;
-const addOne = () => {
-    count ++;
-    renderCounterApp();
-};
-const subtractOne = () => {
-    count --;
-    renderCounterApp();
-};
-const reset = () => {
-    count = 0;
-    renderCounterApp();
+    if (option) {
+        app.options.push(option);
+        console.log('array', app.options)
+        event.target.elements.option.value = "";
+        renderApp();
+    };
 };
 
-const renderCounterApp = () => {
-    const templateTwo = (
+const onRemoveAll = () => {
+    app.options = [];
+    renderApp();
+};
+
+const onMakeDecision = () => {
+    const randomArrayIndex = Math.floor(Math.random() * app.options.length);
+    const selectedOption = app.options[randomArrayIndex];
+    alert (selectedOption);
+    // return <p key={app.options[randomArrayIndex]}>{app.options[randomArrayIndex]}</p>
+};
+
+const appRoot = document.getElementById("app");
+
+const renderApp = () => {
+    const template = (
         <div>
-            <h1>Count: {count}</h1>
-            <button onClick={addOne}>+1</button>
-            <button onClick={subtractOne}>-1</button>
-            <button onClick={reset}>reset</button>
+            <h1>{app.title}</h1>
+            {app.subtitle && <p>{app.subtitle}</p>}
+            <p>{(app.options && app.options.length > 0) ? "Here are your options" : "No Options"}</p>
+            <button disabled={!app.options.length} onClick={onMakeDecision}>What should I do?</button>
+            <button onClick={onRemoveAll}>Remove All</button>
+            <ol>
+                { 
+                    app.options.map((enteredOption) => <li key={enteredOption}>Item: {enteredOption}</li>)
+                }
+            </ol>
+            <form onSubmit={onFormSubmit}>
+                <input type="text" name="option" />
+                <button>Add Option</button>
+            </form>
         </div>
     );
-    
-    const appRoot = document.getElementById('app');
 
-    ReactDOM.render(templateTwo, appRoot);
+    ReactDOM.render(template, appRoot);
 };
 
-renderCounterApp();
+renderApp();
