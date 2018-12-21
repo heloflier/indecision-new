@@ -4,31 +4,61 @@ console.log('build it visible is running');
 
 "use strict";
 
-const appRoot = document.getElementById('app');
+class ToggleVisibility extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleToggleVisibility = this.handleToggleVisibility.bind(this);
 
-let visibility = false;
-
-const toggleVisibility = () => {
-    visibility = !visibility;
-    renderApp();
+        this.state = {
+            visibility: false
+        }
+    }
+    handleToggleVisibility() {
+        this.setState((prevState) => {
+            return { 
+                visibility: !prevState.visibility
+            }
+        })
+    }
+    render() {
+        return (
+            <div>
+            <h1>Visibility Toggle</h1>
+            <button onClick={this.handleToggleVisibility}>{ this.state.visibility ? "Hide Details" : "Show Details" }</button>
+            { this.state.visibility && <p>These are some details</p>}
+        </div>
+        )
+        
+    }
 }
 
-const renderApp = () => {
-    const template = (
-        <div>
-            <h1>Visibility Toggle</h1>
-            <button onClick={toggleVisibility}>
-                { visibility ?  "Hide Details" : "Show Details" }
-            </button>
-            { visibility && (
-                <div>
-                    <p>Some Details</p>
-                </div>
-            )}
-        </div>
-    );
+ReactDOM.render(<ToggleVisibility />, document.getElementById('app'));
 
-    ReactDOM.render(template, appRoot)
-};
+// const appRoot = document.getElementById('app');
 
-renderApp();
+// let visibility = false;
+
+// const toggleVisibility = () => {
+//     visibility = !visibility;
+//     renderApp();
+// }
+
+// const renderApp = () => {
+//     const template = (
+//         <div>
+//             <h1>Visibility Toggle</h1>
+//             <button onClick={toggleVisibility}>
+//                 { visibility ?  "Hide Details" : "Show Details" }
+//             </button>
+//             { visibility && (
+//                 <div>
+//                     <p>Some Details</p>
+//                 </div>
+//             )}
+//         </div>
+//     );
+
+//     ReactDOM.render(template, appRoot)
+// };
+
+// renderApp();
